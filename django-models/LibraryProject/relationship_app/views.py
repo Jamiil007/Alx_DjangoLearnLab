@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import permission_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
@@ -72,3 +74,17 @@ def librarian_view(request):
 @user_passes_test(is_member)
 def member_view(request):
     return render(request, 'relationship_app/member_view.html')
+
+@permission_required('relationship_app.can_add_book')
+def add_book(request):
+    return HttpResponse("Add Book Page")
+
+
+@permission_required('relationship_app.can_change_book')
+def edit_book(request):
+    return HttpResponse("Edit Book Page")
+
+
+@permission_required('relationship_app.can_delete_book')
+def delete_book(request):
+    return HttpResponse("Delete Book Page")
